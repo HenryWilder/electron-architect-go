@@ -16,8 +16,11 @@ func main() {
 	var cursorSize = rl.Vector2{X: CursorRadius * 2, Y: CursorRadius * 2}
 
 	var input InputHandler
+	input.Init()
 
 	for !rl.WindowShouldClose() {
+
+		// Tick
 
 		mousePos := rl.GetMousePosition()
 
@@ -26,6 +29,8 @@ func main() {
 		} else if input.IsPressed(RemoveHovered) {
 			println("Remove hovered")
 		}
+
+		// Draw
 
 		rl.BeginDrawing()
 		{

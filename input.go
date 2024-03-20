@@ -39,8 +39,34 @@ type InputBind struct {
 	WhlVal bool
 }
 
+func KeyboardKeyBinding(key int32) InputBind {
+	return InputBind{Tag: KeyBind, KeyVal: key}
+}
+func MouseButtonBinding(btn int32) InputBind {
+	return InputBind{Tag: BtnBind, BtnVal: btn}
+}
+func ScrollWheelBinding(dir bool) InputBind {
+	return InputBind{Tag: WhlBind, WhlVal: dir}
+}
+
 type InputHandler struct {
 	Bindings map[Input]InputBind
+}
+
+func (handler *InputHandler) SetBinding(input Input, binding InputBind) {
+	handler.Bindings[input] = binding
+}
+
+func (handler *InputHandler) SetBindingsToDefaults() {
+	handler.SetBinding(CreateNode, MouseButtonBinding(rl.MouseButtonLeft))
+	handler.SetBinding(ConnectNodes, MouseButtonBinding(rl.MouseButtonLeft))
+	handler.SetBinding(RemoveHovered, MouseButtonBinding(rl.MouseButtonRight))
+}
+
+// Makes the input map and inits to defaults
+func (handler *InputHandler) Init() {
+	handler.Bindings = make(map[Input]InputBind)
+	handler.SetBindingsToDefaults()
 }
 
 func (handler InputHandler) IsInput(inp Input, state string) bool {
@@ -92,15 +118,12 @@ func (handler InputHandler) IsInput(inp Input, state string) bool {
 func (handler InputHandler) IsPressed(inp Input) bool {
 	return handler.IsInput(inp, "Pressed")
 }
-
 func (handler InputHandler) IsDown(inp Input) bool {
 	return handler.IsInput(inp, "Down")
 }
-
 func (handler InputHandler) IsReleased(inp Input) bool {
 	return handler.IsInput(inp, "Released")
 }
-
 func (handler InputHandler) IsUp(inp Input) bool {
 	return handler.IsInput(inp, "Up")
 }

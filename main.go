@@ -15,9 +15,17 @@ func main() {
 	var cursorOffset = rl.Vector2{X: -CursorRadius, Y: -CursorRadius}
 	var cursorSize = rl.Vector2{X: CursorRadius * 2, Y: CursorRadius * 2}
 
+	var input InputHandler
+
 	for !rl.WindowShouldClose() {
 
 		mousePos := rl.GetMousePosition()
+
+		if input.IsPressed(CreateNode) {
+			println("Create node")
+		} else if input.IsPressed(RemoveHovered) {
+			println("Remove hovered")
+		}
 
 		rl.BeginDrawing()
 		{
